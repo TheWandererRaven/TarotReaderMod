@@ -1,21 +1,3 @@
-local CARD_TEAR_POOF = Isaac.GetEntityVariantByName("CardTearPoof")
-
--- DEPRECATED
-function GetShootingAnimationDirecton(velocity)
-    if math.abs(velocity.X) >= math.abs(velocity.Y) then
-        if velocity.X > 0 then
-            return "E"
-        end
-        if velocity.X < 0 then
-            return "W"
-        end
-    end
-    if velocity.Y > 0 then
-        return "S"
-    end
-    return "N"
-end
-
 function GetShootingAnimationAxis(velocity)
     if math.abs(velocity.Y) >= math.abs(velocity.X) then return "V" end
     return "H"

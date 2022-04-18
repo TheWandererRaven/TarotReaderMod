@@ -9,21 +9,24 @@ CardTear = {
 CardTearPoof = {
   LAST_FRAME = 11 -- using logic 0
 }
-local CARD_TEAR_POOF = Isaac.GetEntityVariantByName("Card Tear Poof")
+CARD_TEAR_POOF = Isaac.GetEntityVariantByName("Card Tear Poof")
 
 require("rolls.lua")
 require("cards_helper.lua")
 require("tears.lua")
+require("game_validations.lua")
 
 --#region UPDATE
 
 function TarotReaderMod:onTearUpdate(tear)
   if tear.Variant == TearVariant.CARD_TEAR and (tear.Height >= -5 or tear:CollidesWithGrid()) then
+    -- The following validation is to ensure the poof of the card already spawned, to avoid spawning double poofs
     if tear:GetData().tarotreadermod_spawnedPoof == nil then
       CardTearCollides(tear)
       tear:GetData().tarotreadermod_spawnedPoof = true
     end
   end
+  Isaac.DebugString("Collides!")
 end
 TarotReaderMod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, TarotReaderMod.onTearUpdate)
 
