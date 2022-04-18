@@ -1,0 +1,8 @@
+<players root="gfx/characters/costumes/" 
+         portraitroot="gfx/ui/stage/" 
+         nameimageroot="gfx/ui/boss/">
+	<player name="TarotReader" skin="tarot_reader.png" hp="4" keys="1" coins="3"
+          nameimage="PlayerName_01_Isaac.png" 
+          portrait="PlayerPortrait_Isaac.png" skinColor="-1"
+		  birthright="#ISAAC_BIRTHRIGHT" />
+</players>
