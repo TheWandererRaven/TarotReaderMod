@@ -1,16 +1,38 @@
-function GetShootingAnimationAxis(velocity)
+TarotReaderMod.tears = {}
+
+local function TEARFLAG(x)
+	return x >= 64 and BitSet128(0,1<<(x-64)) or BitSet128(1<<x,0)
+end
+
+function TarotReaderMod.tears:GetTearFlagValue()
+	index = TearFlags.TEAR_EFFECT_COUNT
+    for k,v in pairs(TearFlags) do
+        if v == TEARFLAG(index) then index = index + 1 end
+    end
+    if index < 115 then
+        return TEARFLAG(index)
+    else
+        return nil
+    end
+end
+
+function TarotReaderMod.tears:AddTearFlags(player, f)
+	player.TearFlags = player.TearFlags | f
+end
+
+local function GetShootingAnimationAxis(velocity)
     if math.abs(velocity.Y) >= math.abs(velocity.X) then return "V" end
     return "H"
 end
 
 -- Returns -1 or 1 depending on the higher valued axis
-function GetShootingAnimationDirection(velocity)
+local function GetShootingAnimationDirection(velocity)
     if math.abs(velocity.Y) >= math.abs(velocity.X) then return (velocity.Y / math.abs(velocity.Y)) end
     return (velocity.X / math.abs(velocity.X))
 end
 
 --Returns the rotation needed to change adjust the animation to the tear's direction
-function GetShootingAnimationRotation(velocity)
+local function GetShootingAnimationRotation(velocity)
     if math.abs(velocity.X) >= math.abs(velocity.Y) then
         if velocity.X > 0 then
             return 270
@@ -25,7 +47,7 @@ function GetShootingAnimationRotation(velocity)
     return 0
 end
 
-function TearToCardTear(tear, cardId)
+function TarotReaderMod.tears:TearToCardTear(tear, cardId)
     Isaac.DebugString("Card Roll: " .. tostring(cardId))
     tear:ChangeVariant(TearVariant.CARD_TEAR)
     -- Data changes
@@ -42,16 +64,11 @@ function TearToCardTear(tear, cardId)
     local flipAnim = false
     --tearSprite.FlipX = axis == "H" and ((direction < 0 and isReversed ~= true) or (direction > 0 and isReversed))
     --tearSprite.FlipY = axis == "V" and ((direction > 0 and isReversed ~= true) or (direction < 0 and isReversed))
-    Isaac.DebugString("Direction: " .. tostring(direction))
     tearSprite.FlipX = axis == "H" and direction < 0
     tearSprite.FlipY = axis == "V" and direction > 0
-    if tearSprite.FlipX then Isaac.DebugString("Is Flipped XXXXXXX")
-    else Isaac.DebugString("Is NOT flipped XXXXXXX") end
-    if tearSprite.FlipY then Isaac.DebugString("Is Flipped YYYYYYY")
-    else Isaac.DebugString("Is NOT flipped YYYYYYY") end
 end
 
-function CardTearCollides(tear)
+function TarotReaderMod.tears:CardTearCollides(tear)
   poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, CARD_TEAR_POOF, 0, tear.Position, Vector(0, 0), nil):ToEffect()
   if tear.Scale >= 0.8 then
     local poofScale = tear.Scale * getPoofScaleCons(tear.Scale)
