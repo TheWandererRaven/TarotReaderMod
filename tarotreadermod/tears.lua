@@ -48,17 +48,20 @@ local function GetShootingAnimationRotation(velocity)
 end
 
 function TarotReaderMod.tears:TearToCardTear(tear, cardId)
-    Isaac.DebugString("Card Roll: " .. tostring(cardId))
     tear:ChangeVariant(TearVariant.CARD_TEAR)
     -- Data changes
     local isReversed = cardId > 22
-    tear:GetData().tarotreadermod_cardTearDrop = cardId
+    tear:GetData().tarotreadermod_tearTarotArcana = cardId
     tear:GetData().tarotreadermod_isReversed = isReversed
+    tear:GetData().tarotreadermod_dropCard = TarotReaderMod.rolls:RollCardDrop()
+    if tear:GetData().tarotreadermod_dropCard ~= true then
+        TarotReaderMod.tears.tarotcards:AddTarotTearEffectsToTear(tear)
+    end
     -- Sprite changes
     local axis = GetShootingAnimationAxis(tear.Velocity)
     local direction = GetShootingAnimationDirection(tear.Velocity)
     local tearSprite = tear:GetSprite()
-    tearSprite:Play(GetCardTearAnimationName(cardId) .. axis, 1)
+    tearSprite:Play(TarotReaderMod.tears.tarotcards:GetCardTearAnimationName(cardId) .. axis, 1)
         -- TODO: I tried to change the animation rotation to only have 1 single animation and rotate it depending on the direction...
         --       ...it didn't worked, gotta try again later tho
     local flipAnim = false

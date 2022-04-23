@@ -1,0 +1,75 @@
+TarotReaderMod.tears.tarotcards = {}
+
+function TarotReaderMod.tears.tarotcards:GetCardTearAnimationName(enumId)
+    if(enumId == Card.CARD_DEVIL) then return "Devil" end
+    if(enumId == Card.CARD_TOWER) then return "Tower" end
+    if(enumId == Card.CARD_SUN) then return "Sun" end
+
+    if(enumId == Card.CARD_REVERSE_DEVIL) then return "ReverseDevil" end
+    if(enumId == Card.CARD_REVERSE_TOWER) then return "ReverseTower" end
+    if(enumId == Card.CARD_REVERSE_SUN) then return "ReverseSun" end
+    
+    if(enumId > 22) then return "ReverseDeath" end
+    return "Death"
+end
+
+local function ExecuteDeathCardHit()
+end
+
+local function ExecuteDevilCardHit()
+end
+
+local function ExecuteTowerCardHit(tear)
+    --Isaac.Explode(tear.Position, tear, 100)
+end
+
+local function ExecuteSunCardHit()
+end
+
+function TarotReaderMod.tears.tarotcards:ExecuteCardHit(tear)
+    local arcanaId = tear:GetData().tarotreadermod_tearTarotArcana
+    --if(arcanaId == Card.CARD_DEVIL) then return "Devil" end
+    if(arcanaId == Card.CARD_TOWER) then ExecuteTowerCardHit(tear) end
+    --if(arcanaId == Card.CARD_SUN) then return "Sun" end
+
+    --if(arcanaId == Card.CARD_REVERSE_DEVIL) then return "ReverseDevil" end
+    --if(arcanaId == Card.CARD_REVERSE_TOWER) then return "ReverseTower" end
+    --if(arcanaId == Card.CARD_REVERSE_SUN) then return "ReverseSun" end
+    
+    --if(arcanaId > 22) then return "ReverseDeath" end
+    --return "Death"
+end
+
+local function AddTowerEffectToTear(tear)
+    -- When card hits an enemy, card sticks to the enemy, glows like a bomb and then explodes after a few seconds
+    tear:AddTearFlags(TearFlags.TEAR_EXPLOSIVE)
+    tear.CollisionDamage = 100
+end
+
+local function AddChariotEffectToTear(tear)
+    -- Augment tear range, make it piercing, with rainbow colors and it deals damage the same as My little unicron item
+end
+
+local function AddChariotEffectToTear(tear)
+    -- Augment tear range, make it piercing, with rainbow colors and it deals damage the same as My little unicron item
+end
+
+local function AddFoolEffectToTear(tear)
+    -- Enemy hit turns into their lesser version by extracting the 1 from the first decimal on the monster's id, if that deicmal is not 0,
+    -- if it cannot go lower it just hurts the enemy
+end
+
+function TarotReaderMod.tears.tarotcards:AddTarotTearEffectsToTear(tear)
+    Isaac.DebugString("ADD EFFECT!")
+    local arcanaId = tear:GetData().tarotreadermod_tearTarotArcana
+    --if(arcanaId == Card.CARD_DEVIL) then return "Devil" end
+    if(arcanaId == Card.CARD_TOWER) then AddTowerEffectToTear(tear) end
+    --if(arcanaId == Card.CARD_SUN) then return "Sun" end
+
+    --if(arcanaId == Card.CARD_REVERSE_DEVIL) then return "ReverseDevil" end
+    --if(arcanaId == Card.CARD_REVERSE_TOWER) then return "ReverseTower" end
+    --if(arcanaId == Card.CARD_REVERSE_SUN) then return "ReverseSun" end
+    
+    --if(arcanaId > 22) then return "ReverseDeath" end
+    --return "Death"
+end
