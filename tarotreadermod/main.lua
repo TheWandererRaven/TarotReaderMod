@@ -49,7 +49,7 @@ TarotReaderMod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, TarotReaderMod.onCach
 
 function TarotReaderMod:onCollision(tear, collider, low)
   -- If Card Tear collides with target...
-  if tear.Variant == TearVariant.CARD_TEAR and tear.StickTarget == nil then
+  if tear.Variant == TearVariant.CARD_TEAR and tear.StickTarget == nil and (tear:HasTearFlags(TearFlags.TEAR_PIERCING) == false) then
     -- If Card Tear rolled a drop...
     if tear:GetData().tarotreadermod_dropCard then
       -- Drop the card and remove the tear

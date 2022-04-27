@@ -74,6 +74,7 @@ end
 function TarotReaderMod.tears:CardTearCollides(tear)
   poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, CARD_TEAR_POOF, 0, tear.Position, Vector(0, 0), nil):ToEffect()
   if tear.Scale >= 0.8 then
+    poof:SetColor(tear:GetColor(), -1, 1, false, false)
     local poofScale = tear.Scale * getPoofScaleCons(tear.Scale)
     local poofSprite = poof:GetSprite()
     poofSprite.Scale = Vector(poofScale, poofScale)
