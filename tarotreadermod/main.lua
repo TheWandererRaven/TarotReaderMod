@@ -11,6 +11,7 @@ CardTearPoof = {
 }
 CARD_TEAR_POOF = Isaac.GetEntityVariantByName("Card Tear Poof")
 
+require("helpers.lua")
 require("rolls.lua")
 require("tears.lua")
 require("tears_tarotcards.lua")
@@ -58,7 +59,9 @@ function TarotReaderMod:onCollision(tear, collider, low)
     else
       -- Execute common collision behaviour
       TarotReaderMod.tears:CardTearCollides(tear)
-      if collider:IsEnemy() == false then
+      if collider:IsEnemy() then
+        TarotReaderMod.tears.tarotcards:ExecuteCardHit(tear:GetData().tarotreadermod_tearTarotArcana, collider)
+      else
         tear:Remove()
       end
     end

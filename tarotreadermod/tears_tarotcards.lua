@@ -32,32 +32,30 @@ function TarotReaderMod.tears.tarotcards:GetCardTearAnimationName(enumId)
     return "Death"
 end
 
-local function ExecuteDeathCardHit()
+--#region EXECUTE CARD HIT
+
+local function ExecuteFoolCardHit(enemy)
+    Isaac.DebugString("THE FOOL HITS")
+    local enemyType = enemy.Type
+    local currentVariant = enemy.Variant
+    if currentVariant > 0 then
+        -- leave enemy subtype to 0 unless it needs to have the subtype
+        local newIds = TarotReaderMod.game_validations:GetLesserVersionOf(enemyType, currentVariant)
+        if(newIds[0] ~= enemyType or newIds[1] ~= currentVariant) then
+            local newEnemy = Isaac.Spawn(newIds[0], newIds[1], 0, enemy.Position, enemy.Velocity, enemy.SpawnerEntity)
+            newEnemy.HitPoints = (enemy.HitPoints / enemy.MaxHitPoints) * newEnemy.MaxHitPoints
+            enemy:Remove()
+        end
+    end
 end
 
-local function ExecuteDevilCardHit()
+function TarotReaderMod.tears.tarotcards:ExecuteCardHit(arcanaId, enemy)
+    if(arcanaId == Card.CARD_FOOL) then ExecuteFoolCardHit(enemy) end
 end
 
-local function ExecuteTowerCardHit(tear)
-    --Isaac.Explode(tear.Position, tear, 100)
-end
+--#endregion
 
-local function ExecuteSunCardHit()
-end
-
-function TarotReaderMod.tears.tarotcards:ExecuteCardHit(tear)
-    local arcanaId = tear:GetData().tarotreadermod_tearTarotArcana
-    --if(arcanaId == Card.CARD_DEVIL) then return "Devil" end
-    if(arcanaId == Card.CARD_TOWER) then ExecuteTowerCardHit(tear) end
-    --if(arcanaId == Card.CARD_SUN) then return "Sun" end
-
-    --if(arcanaId == Card.CARD_REVERSE_DEVIL) then return "ReverseDevil" end
-    --if(arcanaId == Card.CARD_REVERSE_TOWER) then return "ReverseTower" end
-    --if(arcanaId == Card.CARD_REVERSE_SUN) then return "ReverseSun" end
-    
-    --if(arcanaId > 22) then return "ReverseDeath" end
-    --return "Death"
-end
+--#region ADD EFFECT
 
 local function AddFoolEffectToTear(tear)
     -- Enemy hit turns into their lesser version by extracting the 1 from the first decimal on the monster's id, if that deicmal is not 0,
@@ -195,3 +193,4 @@ function TarotReaderMod.tears.tarotcards:AddTarotTearEffectsToTear(tear)
     --if(arcanaId > 22) then return "ReverseDeath" end
     --return "Death"
 end
+--#endregion

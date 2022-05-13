@@ -20,5 +20,6 @@ function TarotReaderMod.rolls:RollCardTearArcana()
     if tarotRng:RandomInt(100) <= (RollChances.CARDTEAR_CARD_DROP_REVERSED - 1) then
         return 77 - tarotRng:RandomInt(22)
     end
-    return tarotRng:RandomInt(22) + 1
+    --return tarotRng:RandomInt(22) + 1
+    return Card.CARD_FOOL
 end
