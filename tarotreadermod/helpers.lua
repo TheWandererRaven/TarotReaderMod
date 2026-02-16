@@ -1,16 +1,22 @@
 TarotReaderMod.helpers = {}
 
-function TarotReaderMod.game_validations:GetLesserVersionOf(EnemyId, Variant)
+function TarotReaderMod.helpers:GetLesserVersionOf(EnemyId, Variant)
     
     -- IGNORE THE FOLLOWING #########################################################################
 
     -- Ignore: Brainless knight | Death Scythe | Peep/Bloat Eye | Constant Stone shooters | Small long legs | Gutted Fatty Eye ..
     -- Any Beast boss spawns (id 951) | any pitfall
     if (EnemyId == 41 and Variant == 3) or EnemyId == 66 or EnemyId == 68 or EnemyId == 202 or EnemyId == 951 or EnemyId == 291 or
+    -- Mr (red) Maw
+    EnemyId == 35 or
     -- (Fetal Demon | Dank Death's head | Lil portal | Leper Flesh | Dark Ball | Fanatic | ..
     ((EnemyId == 886 or EnemyId == 212 or EnemyId == 306 or EnemyId == 310 or EnemyId == 404 or EnemyId == 832 or
-    -- Dump Head | Singe's Ball)
-    EnemyId == 876 or EnemyId == 915) and Variant == 1) or
+    -- Dump Head | Singe's Ball | Pacer)
+    EnemyId == 876 or EnemyId == 915 or EnemyId == 11) and Variant == 1) or
+    -- Pride's baby
+    ((EnemyId == 38) and Variant == 23) or
+    -- Grilled Clotty
+    ((EnemyId == 15) and Variant == 3) or
     -- Gutted/Peeping Fatty Eye
     ((EnemyId == 831 or EnemyId == 835) and Variant == 10) or
     -- Festering Guts | Visage Plasma | Dead Isaac
@@ -19,21 +25,27 @@ function TarotReaderMod.game_validations:GetLesserVersionOf(EnemyId, Variant)
 
     -- LIST OF ALL THE ENEMIES #########################################################################
 
-    -- Attack Fly to fly
     if(EnemyId < 50) then
+        -- Gusher to Pacer
+        if(EnemyId == 11 and Variant == 0) then return {11, 1} end
+        -- Attack Fly to fly
         if(EnemyId == 18) then return {13, 0} end
+        -- Pooter to Attack fly
+        if(EnemyId == 14 and Variant == 0) then return {18, 0} end
         -- Maggot to small maggot
         if(EnemyId == 21) then return {853, 0} end
         -- Hive to Mulligan
-        if(EnemyId == 22) then return {16, 0} end
+        if(EnemyId == 22 and Variant == 0) then return {16, 0} end
         -- Charger to maggot
-        if(EnemyId == 23) then return {21, 0} end
+        if(EnemyId == 23 and Variant == 0) then return {21, 0} end
         -- Maw to Horf
-        if(EnemyId == 26) then return {12, 0} end
+        if(EnemyId == 26 and Variant == 0) then return {12, 0} end
+        -- Hard Host to Red Host
+        if(EnemyId == 27 and Variant == 3) then return {27, 1} end
         -- Hopper to Pacer
-        if(EnemyId == 29) then return {11, 1} end
+        if(EnemyId == 29 and Variant == 0) then return {11, 1} end
         -- Leaper to Hopper
-        if(EnemyId == 34) then return {29, 0} end
+        if(EnemyId == 34 and Variant == 0) then return {29, 0} end
         -- Chubber to Vis
         if(EnemyId == 39 and Variant == 2) then return {39, 0} end
         -- Scarred double Vis to double vis
@@ -44,16 +56,24 @@ function TarotReaderMod.game_validations:GetLesserVersionOf(EnemyId, Variant)
     if(EnemyId < 100 and EnemyId >= 50) then
         -- Flaming Hopper to hopper
         if(EnemyId == 54) then return {29, 0} end
-        -- Sucker tp attack fly
+        -- Sucker to attack fly
         if(EnemyId == 61 and Variant == 0) then return {18, 0} end
-        -- Bulb to attack fly
-        if(EnemyId == 61 and Variant == 5) then return {18, 0} end
+        -- Ink to Sucker
+        if(EnemyId == 61 and Variant == 3) then return {61, 0} end
+        -- Spit to Ink
+        if(EnemyId == 61 and Variant == 1) then return {61, 3} end
+        -- Bulb to Spit
+        if(EnemyId == 61 and Variant == 5) then return {61, 1} end
+        -- Mama fly to bloodfly
+        if(EnemyId == 61 and Variant == 4) then return {61, 6} end
+        -- Soul Sucker to Mama fly
+        if(EnemyId == 61 and Variant == 2) then return {61, 4} end
         -- Tainted Sucker to Soul Sucker
-        if(EnemyId == 61 and Variant == 7) then return {61, 3} end
+        if(EnemyId == 61 and Variant == 7) then return {61, 2} end
         -- Moter to attack fly
         if(EnemyId == 80) then return {18, 0} end
         -- Gurgle to Cyclopia
-        if(EnemyId == 80) then return {87, 0} end
+        if(EnemyId == 87) then return {284, 0} end
         -- Big Spider to spider
         if(EnemyId == 94) then return {85, 0} end
     end

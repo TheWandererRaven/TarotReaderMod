@@ -38,14 +38,12 @@ local function ExecuteFoolCardHit(enemy)
     Isaac.DebugString("THE FOOL HITS")
     local enemyType = enemy.Type
     local currentVariant = enemy.Variant
-    if currentVariant > 0 then
-        -- leave enemy subtype to 0 unless it needs to have the subtype
-        local newIds = TarotReaderMod.game_validations:GetLesserVersionOf(enemyType, currentVariant)
-        if(newIds[0] ~= enemyType or newIds[1] ~= currentVariant) then
-            local newEnemy = Isaac.Spawn(newIds[0], newIds[1], 0, enemy.Position, enemy.Velocity, enemy.SpawnerEntity)
-            newEnemy.HitPoints = (enemy.HitPoints / enemy.MaxHitPoints) * newEnemy.MaxHitPoints
-            enemy:Remove()
-        end
+    local newIds = TarotReaderMod.helpers:GetLesserVersionOf(enemyType, currentVariant)
+    Isaac.DebugString("ID: " .. tostring(newIds[1]) .. "." .. tostring(newIds[2]))
+    if(newIds[1] ~= enemyType or newIds[2] ~= currentVariant) then
+        local newEnemy = Isaac.Spawn(newIds[1], newIds[2], 0, enemy.Position, enemy.Velocity, enemy.SpawnerEntity)
+        newEnemy.HitPoints = (enemy.HitPoints / enemy.MaxHitPoints) * newEnemy.MaxHitPoints
+        enemy:Remove()
     end
 end
 
